@@ -5,7 +5,8 @@ on:
     branches: [main]
   push:
     branches: [main]
-  workflow_dispatch:
+  issue_comment:
+    types: [created]
 
 env:
   TEST_AGENT_PUBLIC_DID_SEED: 000000000000000000000000Trustee9
@@ -19,9 +20,25 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  pr-trigger:
+    runs-on: ubuntu-20.04
+    outputs:
+      should-run: ${{ steps.check.outputs.triggered || github.event_name != 'issue_comment' }}
+    steps:
+      - uses: khan/pull-request-comment-trigger@master
+        id: check
+        with:
+          trigger: 'ci test'
+          prefix_only: true
+          reaction: rocket
+        env:
+          GITHUB_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+
   validate:
     runs-on: ubuntu-20.04
     name: Validate
+    needs: [pr-trigger]
+    if: needs.pr-trigger.outputs.should-run == 'true'
     steps:
       - name: Checkout aries-framework-javascript-ext
         uses: actions/checkout@v2
@@ -50,6 +67,8 @@ jobs:
   integration-test:
     runs-on: ubuntu-20.04
     name: Integration Tests
+    needs: [pr-trigger]
+    if: needs.pr-trigger.outputs.should-run == 'true'
 
     strategy:
       matrix:
