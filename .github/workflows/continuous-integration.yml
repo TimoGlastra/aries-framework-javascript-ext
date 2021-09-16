@@ -27,9 +27,9 @@ jobs:
       - name: Determine if CI should run
         id: check
         run: |
-          if [[ "${{ github.event.action }}" == "pull_request" && "${{ github.event.label.name }}" == "ci-test" ]]; then
+          if [[ "${{ github.event.action }}" == "labeled" && "${{ github.event.label.name }}" == "ci-test" ]]; then
               export SHOULD_RUN='true'
-          elif [[ "${{ github.event.action }}" == "pull_request" && "${{ github.event.label.name }}" != "ci-test" ]]; then
+          elif [[ "${{ github.event.action }}" == "labeled" && "${{ github.event.label.name }}" != "ci-test" ]]; then
               export SHOULD_RUN='false'
           else 
               export SHOULD_RUN='true'
