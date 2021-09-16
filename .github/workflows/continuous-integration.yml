@@ -23,7 +23,7 @@ jobs:
   pr-trigger:
     runs-on: ubuntu-20.04
     outputs:
-      should-run: ${{ steps.check.outputs.triggered || github.event_name != 'issue_comment' }}
+      triggered: ${{ steps.check.outputs.triggered }}
     steps:
       - uses: khan/pull-request-comment-trigger@master
         id: check
@@ -38,7 +38,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: Validate
     needs: [pr-trigger]
-    if: needs.pr-trigger.outputs.should-run == 'true'
+    if: needs.pr-trigger.outputs.triggered == 'true' || github.event_name != 'issue_comment'
     steps:
       - name: Checkout aries-framework-javascript-ext
         uses: actions/checkout@v2
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-20.04
     name: Integration Tests
     needs: [pr-trigger]
-    if: needs.pr-trigger.outputs.should-run == 'true'
+    if: needs.pr-trigger.outputs.triggered == 'true' || github.event_name != 'issue_comment'
 
     strategy:
       matrix:
