@@ -35,6 +35,7 @@ jobs:
               export SHOULD_RUN='true'
           fi
 
+          echo "SHOULD_RUN: ${SHOULD_RUN}"
           echo "::set-output name=triggered::${SHOULD_RUN}"
 
   validate:
