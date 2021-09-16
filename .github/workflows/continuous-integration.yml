@@ -27,6 +27,7 @@ jobs:
     steps:
       - uses: khan/pull-request-comment-trigger@master
         id: check
+        if: ${{ github.event_name != 'push' }}
         with:
           trigger: 'ci test'
           prefix_only: true
