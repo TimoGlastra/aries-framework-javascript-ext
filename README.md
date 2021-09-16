@@ -43,8 +43,6 @@
   <a href="#license">License</a> 
 </p>
 
-aa
-
 Aries Framework JavaScript Extensions is an extension repo to [Aries Framework JavaScript](https://github.com/hyperledger/aries-framework-javascript.git) (AFJ). It hosts libraries built on top of Aries Framework JavaScript that don't necessarily belong to the core of the project. Example extension libraries include React Hooks for AFJ and A Rest API wrapper.
 
 If you're just getting started the [AFJ repo](https://github.com/hyperledger/aries-framework-javascript.git) is probably the place to start.
